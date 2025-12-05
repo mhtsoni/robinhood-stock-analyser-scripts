@@ -52,16 +52,16 @@ export function compileData(instrumentMappings, ratingsMap, fairValueMap, quotes
         };
 
         // Add individual rating texts
-        if (ratings?.ratings && ratings.ratings.length > 0) {
-            const buyRatings = ratings.ratings.filter(r => r.type === 'buy').map(r => r.text);
-            const sellRatings = ratings.ratings.filter(r => r.type === 'sell').map(r => r.text);
+        // if (ratings?.ratings && ratings.ratings.length > 0) {
+        //     const buyRatings = ratings.ratings.filter(r => r.type === 'buy').map(r => r.text);
+        //     const sellRatings = ratings.ratings.filter(r => r.type === 'sell').map(r => r.text);
 
-            row['Buy Rating Reasons'] = buyRatings.join(' | ');
-            row['Sell Rating Reasons'] = sellRatings.join(' | ');
-        } else {
-            row['Buy Rating Reasons'] = 'N/A';
-            row['Sell Rating Reasons'] = 'N/A';
-        }
+        //     row['Buy Rating Reasons'] = buyRatings.join(' | ');
+        //     row['Sell Rating Reasons'] = sellRatings.join(' | ');
+        // } else {
+        //     row['Buy Rating Reasons'] = 'N/A';
+        //     row['Sell Rating Reasons'] = 'N/A';
+        // }
 
         compiled.push(row);
     });
