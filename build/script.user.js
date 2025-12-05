@@ -75,49 +75,49 @@
   function compileData(instrumentMappings, ratingsMap, fairValueMap, quotesMap = {}) {
     const compiled = [];
     instrumentMappings.forEach((mapping) => {
-      var _a, _b, _c, _d, _e, _f, _g, _h, _i, _j, _k, _l;
+      var _a, _b, _c, _d;
       const instrumentId = mapping.instrumentId;
       const ratings = instrumentId ? ratingsMap[instrumentId] : null;
       const fairValue = instrumentId ? fairValueMap[instrumentId] : null;
       const quote = instrumentId ? quotesMap[instrumentId] : null;
       const row = {
         "Symbol": mapping.symbol,
-        "Company Name": mapping.name,
-        "Instrument ID": instrumentId || "N/A",
-        "Buy Ratings": ((_a = ratings == null ? void 0 : ratings.summary) == null ? void 0 : _a.num_buy_ratings) || 0,
-        "Hold Ratings": ((_b = ratings == null ? void 0 : ratings.summary) == null ? void 0 : _b.num_hold_ratings) || 0,
-        "Sell Ratings": ((_c = ratings == null ? void 0 : ratings.summary) == null ? void 0 : _c.num_sell_ratings) || 0,
-        "Total Ratings": (((_d = ratings == null ? void 0 : ratings.summary) == null ? void 0 : _d.num_buy_ratings) || 0) + (((_e = ratings == null ? void 0 : ratings.summary) == null ? void 0 : _e.num_hold_ratings) || 0) + (((_f = ratings == null ? void 0 : ratings.summary) == null ? void 0 : _f.num_sell_ratings) || 0),
-        "Fair Value": ((_g = fairValue == null ? void 0 : fairValue.fair_value) == null ? void 0 : _g.value) || "N/A",
-        "Fair Value Currency": ((_h = fairValue == null ? void 0 : fairValue.fair_value) == null ? void 0 : _h.currency_code) || "N/A",
+        // 'Company Name': mapping.name,
+        // 'Instrument ID': instrumentId || 'N/A',
+        // 'Buy Ratings': ratings?.summary?.num_buy_ratings || 0,
+        // 'Hold Ratings': ratings?.summary?.num_hold_ratings || 0,
+        // 'Sell Ratings': ratings?.summary?.num_sell_ratings || 0,
+        "Total Ratings": (((_a = ratings == null ? void 0 : ratings.summary) == null ? void 0 : _a.num_buy_ratings) || 0) + (((_b = ratings == null ? void 0 : ratings.summary) == null ? void 0 : _b.num_hold_ratings) || 0) + (((_c = ratings == null ? void 0 : ratings.summary) == null ? void 0 : _c.num_sell_ratings) || 0),
+        "Fair Value": ((_d = fairValue == null ? void 0 : fairValue.fair_value) == null ? void 0 : _d.value) || "N/A",
+        // 'Fair Value Currency': fairValue?.fair_value?.currency_code || 'N/A',
         "Star Rating": (fairValue == null ? void 0 : fairValue.star_rating) || "N/A",
         "Economic Moat": (fairValue == null ? void 0 : fairValue.economic_moat) || "N/A",
         "Uncertainty": (fairValue == null ? void 0 : fairValue.uncertainty) || "N/A",
         "Stewardship": (fairValue == null ? void 0 : fairValue.stewardship) || "N/A",
-        "Report Title": (fairValue == null ? void 0 : fairValue.report_title) || "N/A",
-        "Report Published": (fairValue == null ? void 0 : fairValue.report_published_at) || "N/A",
-        "Report Updated": (fairValue == null ? void 0 : fairValue.report_updated_at) || "N/A",
-        "Quote Ask Price": (quote == null ? void 0 : quote.ask_price) || "N/A",
-        "Quote Ask Size": (_i = quote == null ? void 0 : quote.ask_size) != null ? _i : "N/A",
-        "Quote Ask Time": (quote == null ? void 0 : quote.venue_ask_time) || "N/A",
-        "Quote Bid Price": (quote == null ? void 0 : quote.bid_price) || "N/A",
-        "Quote Bid Size": (_j = quote == null ? void 0 : quote.bid_size) != null ? _j : "N/A",
-        "Quote Bid Time": (quote == null ? void 0 : quote.venue_bid_time) || "N/A",
-        "Quote Last Trade Price": (quote == null ? void 0 : quote.last_trade_price) || "N/A",
-        "Quote Last Trade Time": (quote == null ? void 0 : quote.venue_last_trade_time) || "N/A",
-        "Quote Extended Hours Price": (quote == null ? void 0 : quote.last_extended_hours_trade_price) || "N/A",
-        "Quote Non Regular Price": (quote == null ? void 0 : quote.last_non_reg_trade_price) || "N/A",
-        "Quote Non Regular Time": (quote == null ? void 0 : quote.venue_last_non_reg_trade_time) || "N/A",
-        "Quote Previous Close": (quote == null ? void 0 : quote.previous_close) || "N/A",
-        "Quote Adjusted Previous Close": (quote == null ? void 0 : quote.adjusted_previous_close) || "N/A",
-        "Quote Previous Close Date": (quote == null ? void 0 : quote.previous_close_date) || "N/A",
-        "Quote Trading Halted": (_k = quote == null ? void 0 : quote.trading_halted) != null ? _k : "N/A",
-        "Quote Has Traded": (_l = quote == null ? void 0 : quote.has_traded) != null ? _l : "N/A",
-        "Quote Last Trade Price Source": (quote == null ? void 0 : quote.last_trade_price_source) || "N/A",
-        "Quote Non Regular Price Source": (quote == null ? void 0 : quote.last_non_reg_trade_price_source) || "N/A",
-        "Quote Updated At": (quote == null ? void 0 : quote.updated_at) || "N/A",
-        "Quote Instrument URL": (quote == null ? void 0 : quote.instrument) || "N/A",
-        "Quote State": (quote == null ? void 0 : quote.state) || "N/A"
+        // 'Report Title': fairValue?.report_title || 'N/A',
+        // 'Report Published': fairValue?.report_published_at || 'N/A',
+        // 'Report Updated': fairValue?.report_updated_at || 'N/A',
+        // 'Quote Ask Price': quote?.ask_price || 'N/A',
+        // 'Quote Ask Size': quote?.ask_size ?? 'N/A',
+        // 'Quote Ask Time': quote?.venue_ask_time || 'N/A',
+        // 'Quote Bid Price': quote?.bid_price || 'N/A',
+        // 'Quote Bid Size': quote?.bid_size ?? 'N/A',
+        // 'Quote Bid Time': quote?.venue_bid_time || 'N/A',
+        "Quote Last Trade Price": (quote == null ? void 0 : quote.last_trade_price) || "N/A"
+        // 'Quote Last Trade Time': quote?.venue_last_trade_time || 'N/A',
+        // 'Quote Extended Hours Price': quote?.last_extended_hours_trade_price || 'N/A',
+        // 'Quote Non Regular Price': quote?.last_non_reg_trade_price || 'N/A',
+        // 'Quote Non Regular Time': quote?.venue_last_non_reg_trade_time || 'N/A',
+        // 'Quote Previous Close': quote?.previous_close || 'N/A',
+        // 'Quote Adjusted Previous Close': quote?.adjusted_previous_close || 'N/A',
+        // 'Quote Previous Close Date': quote?.previous_close_date || 'N/A',
+        // 'Quote Trading Halted': quote?.trading_halted ?? 'N/A',
+        // 'Quote Has Traded': quote?.has_traded ?? 'N/A',
+        // 'Quote Last Trade Price Source': quote?.last_trade_price_source || 'N/A',
+        // 'Quote Non Regular Price Source': quote?.last_non_reg_trade_price_source || 'N/A',
+        // 'Quote Updated At': quote?.updated_at || 'N/A',
+        // 'Quote Instrument URL': quote?.instrument || 'N/A',
+        // 'Quote State': quote?.state || 'N/A',
       };
       if ((ratings == null ? void 0 : ratings.ratings) && ratings.ratings.length > 0) {
         const buyRatings = ratings.ratings.filter((r) => r.type === "buy").map((r) => r.text);
