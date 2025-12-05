@@ -19,6 +19,8 @@ const USERSCRIPT_HEADER = `// ==UserScript==
 // @grant        GM_getValue
 // @grant        unsafeWindow
 // @require      https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js
+// @updateURL    https://raw.githubusercontent.com/mhtsoni/robinhood-stock-analyser-scripts/main/build/script.js
+// @downloadURL  https://raw.githubusercontent.com/mhtsoni/robinhood-stock-analyser-scripts/main/build/script.js
 // ==/UserScript==
 
 `;
