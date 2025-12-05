@@ -34,7 +34,7 @@ function build() {
         format: 'iife',
         platform: 'browser',
         target: 'es2017',
-        outfile: join(__dirname, 'build', 'script.js'),
+        outfile: join(__dirname, 'build', 'script.user.js'),
         banner: {
             js: USERSCRIPT_HEADER
         },
