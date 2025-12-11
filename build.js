@@ -19,8 +19,8 @@ const USERSCRIPT_HEADER = `// ==UserScript==
 // @grant        GM_getValue
 // @grant        unsafeWindow
 // @require      https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js
-// @updateURL    https://raw.githubusercontent.com/mhtsoni/robinhood-stock-analyser-scripts/main/build/script.js
-// @downloadURL  https://raw.githubusercontent.com/mhtsoni/robinhood-stock-analyser-scripts/main/build/script.js
+// @updateURL    https://raw.githubusercontent.com/mhtsoni/robinhood-stock-analyser-scripts/main/build/script.user.js
+// @downloadURL  https://raw.githubusercontent.com/mhtsoni/robinhood-stock-analyser-scripts/main/build/script.user.js
 // ==/UserScript==
 
 `;
@@ -41,7 +41,7 @@ function build() {
         minify: false, // Keep readable for userscript debugging
         write: true,
     }).then(() => {
-        console.log('✅ Build complete! Output: build/script.js');
+        console.log('✅ Build complete! Output: build/script.user.js');
     }).catch((error) => {
         console.error('❌ Build failed:', error);
         process.exit(1);

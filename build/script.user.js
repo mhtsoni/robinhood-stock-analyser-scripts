@@ -11,8 +11,8 @@
 // @grant        GM_getValue
 // @grant        unsafeWindow
 // @require      https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js
-// @updateURL    https://raw.githubusercontent.com/mhtsoni/robinhood-stock-analyser-scripts/main/build/script.js
-// @downloadURL  https://raw.githubusercontent.com/mhtsoni/robinhood-stock-analyser-scripts/main/build/script.js
+// @updateURL    https://raw.githubusercontent.com/mhtsoni/robinhood-stock-analyser-scripts/main/build/script.user.js
+// @downloadURL  https://raw.githubusercontent.com/mhtsoni/robinhood-stock-analyser-scripts/main/build/script.user.js
 // ==/UserScript==
 
 
@@ -75,11 +75,35 @@
   function compileData(instrumentMappings, ratingsMap, fairValueMap, quotesMap = {}) {
     const compiled = [];
     instrumentMappings.forEach((mapping) => {
-      var _a, _b, _c, _d;
+      var _a, _b, _c, _d, _e, _f, _g, _h, _i;
       const instrumentId = mapping.instrumentId;
       const ratings = instrumentId ? ratingsMap[instrumentId] : null;
       const fairValue = instrumentId ? fairValueMap[instrumentId] : null;
       const quote = instrumentId ? quotesMap[instrumentId] : null;
+      let percentageDiff = null;
+      const fairValueNum = (_a = fairValue == null ? void 0 : fairValue.fair_value) == null ? void 0 : _a.value;
+      const lastTradePrice = quote == null ? void 0 : quote.last_trade_price;
+      if (fairValueNum && lastTradePrice) {
+        const fairValueFloat = parseFloat(fairValueNum);
+        const lastTradePriceFloat = parseFloat(lastTradePrice);
+        if (!isNaN(fairValueFloat) && !isNaN(lastTradePriceFloat) && lastTradePriceFloat > 0) {
+          const diff = (fairValueFloat - lastTradePriceFloat) / lastTradePriceFloat * 100;
+          const rounded = Number(diff.toFixed(2));
+          if (!isNaN(rounded)) {
+            percentageDiff = rounded;
+          }
+        }
+      }
+      let buyRatingsPercentage = null;
+      const buyRatings = ((_b = ratings == null ? void 0 : ratings.summary) == null ? void 0 : _b.num_buy_ratings) || 0;
+      const totalRatings = (((_c = ratings == null ? void 0 : ratings.summary) == null ? void 0 : _c.num_buy_ratings) || 0) + (((_d = ratings == null ? void 0 : ratings.summary) == null ? void 0 : _d.num_hold_ratings) || 0) + (((_e = ratings == null ? void 0 : ratings.summary) == null ? void 0 : _e.num_sell_ratings) || 0);
+      if (totalRatings > 0) {
+        const percentage = buyRatings / totalRatings * 100;
+        const rounded = Number(percentage.toFixed(2));
+        if (!isNaN(rounded)) {
+          buyRatingsPercentage = rounded;
+        }
+      }
       const row = {
         "Symbol": mapping.symbol,
         // 'Company Name': mapping.name,
@@ -87,8 +111,9 @@
         // 'Buy Ratings': ratings?.summary?.num_buy_ratings || 0,
         // 'Hold Ratings': ratings?.summary?.num_hold_ratings || 0,
         // 'Sell Ratings': ratings?.summary?.num_sell_ratings || 0,
-        "Total Ratings": (((_a = ratings == null ? void 0 : ratings.summary) == null ? void 0 : _a.num_buy_ratings) || 0) + (((_b = ratings == null ? void 0 : ratings.summary) == null ? void 0 : _b.num_hold_ratings) || 0) + (((_c = ratings == null ? void 0 : ratings.summary) == null ? void 0 : _c.num_sell_ratings) || 0),
-        "Fair Value": ((_d = fairValue == null ? void 0 : fairValue.fair_value) == null ? void 0 : _d.value) || "N/A",
+        "Total Ratings": (((_f = ratings == null ? void 0 : ratings.summary) == null ? void 0 : _f.num_buy_ratings) || 0) + (((_g = ratings == null ? void 0 : ratings.summary) == null ? void 0 : _g.num_hold_ratings) || 0) + (((_h = ratings == null ? void 0 : ratings.summary) == null ? void 0 : _h.num_sell_ratings) || 0),
+        "Buy Ratings %": buyRatingsPercentage,
+        "Fair Value": ((_i = fairValue == null ? void 0 : fairValue.fair_value) == null ? void 0 : _i.value) || "N/A",
         // 'Fair Value Currency': fairValue?.fair_value?.currency_code || 'N/A',
         "Star Rating": (fairValue == null ? void 0 : fairValue.star_rating) || "N/A",
         "Economic Moat": (fairValue == null ? void 0 : fairValue.economic_moat) || "N/A",
@@ -103,7 +128,8 @@
         // 'Quote Bid Price': quote?.bid_price || 'N/A',
         // 'Quote Bid Size': quote?.bid_size ?? 'N/A',
         // 'Quote Bid Time': quote?.venue_bid_time || 'N/A',
-        "Quote Last Trade Price": (quote == null ? void 0 : quote.last_trade_price) || "N/A"
+        "Quote Last Trade Price": (quote == null ? void 0 : quote.last_trade_price) || "N/A",
+        "Potential Profit/Loss %": percentageDiff
         // 'Quote Last Trade Time': quote?.venue_last_trade_time || 'N/A',
         // 'Quote Extended Hours Price': quote?.last_extended_hours_trade_price || 'N/A',
         // 'Quote Non Regular Price': quote?.last_non_reg_trade_price || 'N/A',
@@ -119,15 +145,6 @@
         // 'Quote Instrument URL': quote?.instrument || 'N/A',
         // 'Quote State': quote?.state || 'N/A',
       };
-      if ((ratings == null ? void 0 : ratings.ratings) && ratings.ratings.length > 0) {
-        const buyRatings = ratings.ratings.filter((r) => r.type === "buy").map((r) => r.text);
-        const sellRatings = ratings.ratings.filter((r) => r.type === "sell").map((r) => r.text);
-        row["Buy Rating Reasons"] = buyRatings.join(" | ");
-        row["Sell Rating Reasons"] = sellRatings.join(" | ");
-      } else {
-        row["Buy Rating Reasons"] = "N/A";
-        row["Sell Rating Reasons"] = "N/A";
-      }
       compiled.push(row);
     });
     return compiled;
@@ -152,6 +169,8 @@
       // Sell Ratings
       { wch: 12 },
       // Total Ratings
+      { wch: 15 },
+      // Buy Ratings %
       { wch: 15 },
       // Fair Value
       { wch: 10 },
@@ -188,6 +207,8 @@
       // Quote Bid Time
       { wch: 15 },
       // Quote Last Trade Price
+      { wch: 20 },
+      // Potential Profit/Loss %
       { wch: 24 },
       // Quote Last Trade Time
       { wch: 15 },

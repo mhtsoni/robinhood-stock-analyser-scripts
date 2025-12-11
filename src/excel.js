@@ -16,6 +16,7 @@ export function generateExcel(data) {
         { wch: 12 }, // Hold Ratings
         { wch: 12 }, // Sell Ratings
         { wch: 12 }, // Total Ratings
+        { wch: 15 }, // Buy Ratings %
         { wch: 15 }, // Fair Value
         { wch: 10 }, // Currency
         { wch: 12 }, // Star Rating
@@ -34,6 +35,7 @@ export function generateExcel(data) {
         { wch: 12 }, // Quote Bid Size
         { wch: 24 }, // Quote Bid Time
         { wch: 15 }, // Quote Last Trade Price
+        { wch: 20 }, // Potential Profit/Loss %
         { wch: 24 }, // Quote Last Trade Time
         { wch: 15 }, // Quote Extended Hours Price
         { wch: 15 }, // Quote Non Regular Price
